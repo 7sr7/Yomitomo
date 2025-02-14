@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import logo from './assets/Yomitomo.png'
 import './App.css'
 
@@ -19,13 +18,19 @@ function App() {
   return (
     <>
       <div className='app-container'>
-        <div>
-          <a href="https://vite.dev" target="_blank">
-            <img src={logo} className="logo" alt="Vite logo" />
+        <div className='header flex flex-row justify-between items-center mx-16'>
+          <a href="https://github.com/RoninSR7/Yomitomo" target="_blank">
+            <img 
+              src={logo}
+              className="logo"
+              alt="Yomitomo logo"
+              width={100} 
+              height={100} />
           </a>
-          <a href="https://react.dev" target="_blank">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
+
+          <div className='flex flex-row justify-between items-center '>
+            <h1>Yomitomo</h1>
+          </div>
         </div>
         <h1>Vite + React</h1>
         <div className="card">
