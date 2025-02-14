@@ -7,8 +7,12 @@
         "default_popup": "index.html"
     },
     "permissions": [
-        "scripting"
+        "scripting",
+        "tabs"
     ],
+    "background": {
+        "service_worker": "background.js"
+    },
     "host_permissions": [
         "https://*/*",
         "http://*/*"
