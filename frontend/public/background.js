@@ -9,3 +9,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
   }
 });
+
+chrome.commands.onCommand.addListener((command) => {
+  if (command === "toggle_floating_popup") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.scripting.executeScript({
+        target: { tabId: tabs[0].id },
+        files: ["contentScript.js"],
+      });
+    });
+  }
+});
+

@@ -8,4 +8,16 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  build: {
+    outDir: "dist",
+    rollupOptions: {
+      input: {
+        popup: "index.html",
+        content: "contentScript.js",
+      },
+      output: {
+        entryFileNames: "reactApp.js",
+      },
+    },
+  },
 })
