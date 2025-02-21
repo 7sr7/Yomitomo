@@ -14,7 +14,7 @@ const SideBarPopup = () => {
         right: "5%",
         width: "300px",
         height: "400px",
-        backgroundColor: "white",
+        backgroundColor: "black",
         border: "1px solid #ccc",
         borderRadius: "10px",
         boxShadow: "0px 4px 10px rgba(0,0,0,0.3)",

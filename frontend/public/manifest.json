@@ -30,7 +30,7 @@
         },
         "toggle_floating_popup": {
         "suggested_key": {
-            "default": "Ctrl+Shift+P"
+            "default": "Ctrl+Shift+Q"
         },
         "description": "Toggle in-page popup"
         }

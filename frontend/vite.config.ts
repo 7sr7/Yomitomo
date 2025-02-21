@@ -13,7 +13,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         popup: "index.html",
-        content: "contentScript.js",
+        content: "public/contentScript.js",
       },
       output: {
         entryFileNames: "reactApp.js",
