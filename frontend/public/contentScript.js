@@ -1,13 +1,10 @@
-// Prevent duplicate injection
-if (!document.getElementById("yomitomo-root")) {
-    const rootDiv = document.createElement("div");
-    rootDiv.id = "yomitomo-root";
-    document.body.appendChild(rootDiv);
-  
-    // Inject React app
-    const script = document.createElement("script");
-    script.src = chrome.runtime.getURL("reactApp.js");
-    script.type = "module";
-    document.body.appendChild(script);
-  }
-  
+const existingDiv = document.getElementById("yomitomo-overlay");
+if (!existingDiv) {
+  const yomitomoDiv = document.createElement("div");
+  yomitomoDiv.id = "yomitomo-overlay";
+  document.body.appendChild(yomitomoDiv);
+
+  const script = document.createElement("script");
+  script.src = chrome.runtime.getURL("overlay.bundle.js");
+  document.body.appendChild(script);
+}

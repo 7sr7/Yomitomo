@@ -13,10 +13,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         popup: "index.html",
-        content: "public/contentScript.js",
+        overlay: "src/overlay.html",
       },
       output: {
-        entryFileNames: "reactApp.js",
+        entryFileNames: "overlay.bundle.js",
       },
     },
   },
