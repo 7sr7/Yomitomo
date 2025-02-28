@@ -15,23 +15,23 @@ function Popup() {
 
   return (
     <>
-      <div className='app-container'>
-        <div className='header flex flex-row justify-between items-center mx-16'>
-          <a href="https://github.com/RoninSR7/Yomitomo" target="_blank">
+      <div className='app-container flex flex-col'>
+        <div className='header grid grid-cols-12 my-2 gap-2'>
+          <a href="https://github.com/RoninSR7/Yomitomo" target="_blank" className="col-span-3">
             <img 
               src={logo}
-              className="absolute top-0 left-0 m-2"
+              className=""
               alt="Yomitomo logo"
-              width={100} 
-              height={100} />
+              width={150} 
+              height={150} />
           </a>
 
-          <div className='flex flex-row justify-between items-center '>
-            <h1>Yomitomo</h1>
-          </div>
+          <h1 className='col-span-9 text-3xl font-bold text-slate-500 flex items-center justify-center logo-title'>
+            Yomitomo
+          </h1>
         </div>
 
-        <div className='content'>
+        <div className='content flex flex-col justify-center items-center'>
           <div className='flex flex-row justify-center items-center'>
             <h2>Yomitomo is a GPT-integrated language translation/chat app.</h2>
             <button onClick={openOverlay} className='rounded-2xl bg-blue-400 shadow-md border border-slate-500'>Open Yomitomo
