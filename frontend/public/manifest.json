@@ -5,12 +5,13 @@
     "description": "A Google Chrome extension with direct ChatGPT integration and user-installed dictionaries to allow for seamless, contextual lookups of unknown words and grammar concepts in the user’s target foreign language with user-customizable flashcard generation for the app Anki",
     "action": {
         "default_title": "Yomitomo",
-        "default_popup": "index.html"
+        "default_popup": "src/popup/index.html"
     },
     "permissions": [
         "scripting",
         "tabs",
-        "storage"
+        "storage",
+        "activeTab"
     ],
     "background": {
         "service_worker": "background.js"
@@ -23,15 +24,9 @@
     ],
     "commands": {
         "_execute_action": {
-        "suggested_key": {
-            "default": "Ctrl+Shift+Y"
-        }
-        },
-        "open_overlay": {
-        "suggested_key": {
-            "default": "Ctrl+Shift+Q"
-        },
-        "description": "Toggle in-page popup"
+            "suggested_key": {
+                "default": "Ctrl+Shift+Y"
+            }
         }
     },
     "host_permissions": [

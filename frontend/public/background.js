@@ -7,7 +7,6 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
-
 chrome.commands.onCommand.addListener((command) => {
   if (command === "toggle_floating_popup") {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

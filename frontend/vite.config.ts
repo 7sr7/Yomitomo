@@ -12,12 +12,13 @@ export default defineConfig({
     outDir: "dist",
     rollupOptions: {
       input: {
-        popup: "index.html",
-        overlay: "src/overlay.html",
+        popup: "src/popup/index.html",
+        overlay: "src/overlay/overlay.html"
       },
       output: {
-        entryFileNames: "overlay.bundle.js",
-      },
-    },
+        // Name the bundles so you can refer to them in your manifest and content script
+        entryFileNames: "[name].bundle.js"
+      }
+    }
   },
 })
