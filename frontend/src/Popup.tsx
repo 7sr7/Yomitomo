@@ -1,7 +1,10 @@
 import logo from './assets/Yomitomo.png'
 import './Popup.css'
+import { useState } from 'react';
 
 function Popup() {
+
+  const [language, setLanguage] = useState<String>("EN");
 
   const openOverlay = () => {
     // Send a message to the active tab to trigger the overlay injection
@@ -12,10 +15,16 @@ function Popup() {
     });
   };
   
+  const toggleLanguage = () => {
+    // toggle display language of the popup... (currently only english and japanese)
+    if (language === "EN") setLanguage("JP");
+    else setLanguage("EN");
+  };
 
   return (
     <>
-      <div className='app-container flex flex-col'>
+      
+      <div className='app-container flex flex-col bg-white'>
         <div className='header grid grid-cols-12 my-2 gap-2'>
           <a href="https://github.com/RoninSR7/Yomitomo" target="_blank" className="col-span-3">
             <img 
@@ -33,9 +42,10 @@ function Popup() {
 
         <div className='content flex flex-col justify-center items-center'>
           <div className='flex flex-row justify-center items-center'>
-            <h2>Yomitomo is a GPT-integrated language translation/chat app.</h2>
+          <h2>Yomitomo is a GPT-integrated language translation/chat app.</h2>
           </div>
         </div>
+        
         <div className='flex flex-col justify-center items-center'>
           
           <button
@@ -44,7 +54,18 @@ function Popup() {
             className="rounded-2xl bg-gradient-to-r from-[#7068f0]  to-[#03b1d5] shadow-md border border-slate-500 my-5 hover:scale-105 transition-transform duration-300 px-8 py-2 w-48">
             Open Yomitomo
           </button>
+
+          <button
+          onClick = {toggleLanguage}
+
+          className = "rounded-2xl bg-gradient-to-r from-[#7068f0]  to-[#03b1d5] shadow-md border border-slate-500 my-5 hover:scale-105 transition-transform duration-300 px-8 py-2 w-48">
+          Go Monolingual... (日本語)
+
+          </button>
         </div>
+
+      
+
       </div>
     </>
   )

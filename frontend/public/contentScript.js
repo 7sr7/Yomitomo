@@ -21,4 +21,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       container.appendChild(script);
     }
   }
+
+  if (msg.action === "toggleLanguage"){
+    
+
+  }
+
 });
