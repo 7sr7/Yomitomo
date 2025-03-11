@@ -38,7 +38,10 @@ function Popup() {
         </div>
         <div className='flex flex-col justify-center items-center'>
           
-          <button onClick={openOverlay} className='rounded-2xl bg-blue-400 shadow-md border border-slate-500 my-5 hover:scale-105 duration-300 px-8 py-2 w-48'>
+          <button
+            onClick={openOverlay} 
+            // className='rounded-2xl bg-gradient-to-r from-blue-300 to-green-700 shadow-md border border-slate-500 my-5 hover:scale-105 duration-300 px-8 py-2 w-48'>
+            className="rounded-2xl bg-gradient-to-r from-[#7068f0]  to-[#03b1d5] shadow-md border border-slate-500 my-5 hover:scale-105 transition-transform duration-300 px-8 py-2 w-48">
             Open Yomitomo
           </button>
         </div>
