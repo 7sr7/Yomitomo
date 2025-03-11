@@ -42,7 +42,16 @@ function Popup() {
 
         <div className='content flex flex-col justify-center items-center'>
           <div className='flex flex-row justify-center items-center'>
-          <h2>Yomitomo is a GPT-integrated language translation/chat app.</h2>
+          <h2>
+          
+          {
+            language === "EN" 
+            ? "Yomitomo is a GPT-integrated language translation/chat app." 
+            : "読み友はGPTを使った言語通訳チャットアプリです。"
+          
+          }
+          
+          </h2>
           </div>
         </div>
         
@@ -52,14 +61,25 @@ function Popup() {
             onClick={openOverlay} 
             // className='rounded-2xl bg-gradient-to-r from-blue-300 to-green-700 shadow-md border border-slate-500 my-5 hover:scale-105 duration-300 px-8 py-2 w-48'>
             className="rounded-2xl bg-gradient-to-r from-[#7068f0]  to-[#03b1d5] shadow-md border border-slate-500 my-5 hover:scale-105 transition-transform duration-300 px-8 py-2 w-48">
-            Open Yomitomo
+            {
+            language === "EN"
+            ? "Open Yomitomo" 
+            : "読み友を開く"
+            }
+
           </button>
 
           <button
           onClick = {toggleLanguage}
 
           className = "rounded-2xl bg-gradient-to-r from-[#7068f0]  to-[#03b1d5] shadow-md border border-slate-500 my-5 hover:scale-105 transition-transform duration-300 px-8 py-2 w-48">
-          Go Monolingual... (日本語)
+          
+          { 
+            language === "EN"
+            ? "Change language (Options: EN, JP)" 
+            : "言語を変える (選択：英、日本)"
+          }
+          
 
           </button>
         </div>
