@@ -34,11 +34,13 @@ function Popup() {
         <div className='content flex flex-col justify-center items-center'>
           <div className='flex flex-row justify-center items-center'>
             <h2>Yomitomo is a GPT-integrated language translation/chat app.</h2>
-            <button onClick={openOverlay} className='rounded-2xl bg-blue-400 shadow-md border border-slate-500'>Open Yomitomo
-
-            </button>
-
           </div>
+        </div>
+        <div className='flex flex-col justify-center items-center'>
+          
+          <button onClick={openOverlay} className='rounded-2xl bg-blue-400 shadow-md border border-slate-500 my-5 hover:scale-105 duration-300 px-8 py-2 w-48'>
+            Open Yomitomo
+          </button>
         </div>
       </div>
     </>
