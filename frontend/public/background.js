@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener((message) => {
-  if (message.action === "open_overlay") {
+  if (message.action === "toggleOverlay") {
     chrome.scripting.executeScript({
       target: { allFrames: true },
       files: ["contentScript.js"]
