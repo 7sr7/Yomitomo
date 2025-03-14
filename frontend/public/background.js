@@ -1,31 +1,21 @@
-chrome.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "toggleOverlay") {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length === 0) {
-          console.error("No active tab found.");
-          return;
+        console.error("No active tab found.");
+        return;
       }
-  
+
       const tabId = tabs[0].id;
-      
-      chrome.scripting.executeScript({
-          target: { tabId: tabId },
-          files: ["contentScript.js"] // or a function
-      }, () => {
-          if (chrome.runtime.lastError) {
-              console.error(chrome.runtime.lastError.message);
-          }
+
+      // Send a message instead of reinjecting content script
+      chrome.tabs.sendMessage(tabId, { action: "toggleOverlay2" }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error("Error sending message: ", chrome.runtime.lastError.message);
+        } else {
+          console.log("Message sent to content script");
+        }
       });
     });
   }
 });
-
-
-// const newLocal = chrome.commands.onCommand.addListener((command) => {
-//   if (command === "toggle_floating_popup") {
-//     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-//       chrome.tabs.sendMessage(tabs[0].id, { action: "toggle_popup" });
-//     });
-//   }
-// });
-
