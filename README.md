@@ -15,5 +15,5 @@ A Google Chrome extension with direct ChatGPT integration and user-installed dic
 - UI / UX design of in-page pop-up of the extension 
 
 ## Authors: 
-Ronin Silvestre - RoninASC21
+Ronin Silvestre - 7sr7
 Haoyuan Chen - ChenHY1217
