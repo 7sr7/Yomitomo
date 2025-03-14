@@ -10,7 +10,7 @@ function Popup() {
     // Send a message to the active tab to trigger the overlay injection
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0].id !== undefined) {
-        chrome.tabs.sendMessage(tabs[0].id, { action: "toggleOverlay" });
+        chrome.runtime.sendMessage({ action: "toggleOverlay" });
       }
     });
   };
