@@ -41,7 +41,7 @@ function Popup() {
         </div>
 
         <div className='content flex flex-col justify-center items-center'>
-          <div className='flex flex-row justify-center items-center text-center'>
+          <div className='flex flex-row justify-center items-center text-center min-h-15'>
             <h2>
           
             {
@@ -89,8 +89,6 @@ function Popup() {
 
           </button>
         </div>
-
-      
 
       </div>
     </>
