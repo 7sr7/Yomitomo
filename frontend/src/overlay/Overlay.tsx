@@ -20,7 +20,7 @@ const Overlay: React.FC = () => {
       padding: "20px",
       zIndex: 9999,
     }}
-      className="overlay-container"
+      className="flex flex-col justify-center items-center text-white text-center"
     >
       <h2>Yomitomo</h2>
       <p>This is your in-page popup!</p>

@@ -32,5 +32,11 @@
     "host_permissions": [
         "https://*/*",
         "http://*/*"
+    ],
+    "web_accessible_resources": [
+        {
+        "resources": ["overlay.html", "overlay/mainOverlay.tsx"],
+        "matches": ["<all_urls>"]
+        }
     ]
 }
