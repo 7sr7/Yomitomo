@@ -1,3 +1,11 @@
+chrome.action.onClicked.addListener((tab) => {
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ["overlay.bundle.js"],
+  });
+});
+
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "toggleOverlay") {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

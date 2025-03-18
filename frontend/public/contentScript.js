@@ -11,12 +11,11 @@ if (!window.hasOwnProperty("yomitomoListenerAdded")) {
         container.style.display = container.style.display === "none" ? "block" : "none";
         console.log("Toggled overlay:", container.style.display);
       } else {
-        console.log("Creating new overlay...");
-        container = document.createElement("div");
-        container.id = "yomitomo-overlay";
-        document.body.appendChild(container);
+        // console.log("Creating new overlay...");
+        // container = document.createElement("div");
+        // container.id = "yomitomo-overlay";
+        // document.body.appendChild(container);
 
-        // ✅ Ensure that the overlay.bundle.js is loaded AFTER the element exists
         setTimeout(() => {
           const script = document.createElement("script");
           script.src = chrome.runtime.getURL("overlay.bundle.js");

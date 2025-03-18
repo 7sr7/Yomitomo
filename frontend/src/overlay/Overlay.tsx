@@ -1,14 +1,16 @@
+
 const Overlay: React.FC = () => {
   
   const closeOverlay = () => {
     // Hide the overlay container by setting display to "none"
-    const container = document.getElementById("overlay-container");
+    const container = document.getElementById("yomitomo-overlay");
     if (container) container.style.display = "none";
   };
 
   return (
     <div style={{
-      position: "fixed",
+      // position: "fixed",
+      display: "flex",
       top: "20%",
       right: "5%",
       width: "300px",
@@ -22,6 +24,8 @@ const Overlay: React.FC = () => {
     }}
       className="flex flex-col justify-center items-center text-white text-center"
     >
+
+
       <h2>Yomitomo</h2>
       <p>This is your in-page popup!</p>
       <button onClick={closeOverlay}>Close</button>
