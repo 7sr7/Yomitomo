@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import Overlay from "./Overlay";
+import "../index.css"
 
 // Ensure the container exists in the DOM
 let rootElement = document.getElementById("yomitomo-overlay");
