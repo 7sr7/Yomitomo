@@ -15,7 +15,6 @@ if (!rootElement) {
   rootElement.style.margin = "0";
   rootElement.style.padding = "0";
 
-
   document.body.appendChild(rootElement);
 }
 
