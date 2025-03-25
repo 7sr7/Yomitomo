@@ -36,7 +36,7 @@ function Popup() {
   return (
     <>
       
-      <div className='app-container flex flex-col bg-white'>
+      <div className='app-container flex flex-col bg-white' style={styles.container}>
         <div className='header grid grid-cols-12 my-2 gap-2'>
           <a href="https://github.com/RoninSR7/Yomitomo" target="_blank" className="col-span-3">
             <img 
