@@ -1,8 +1,20 @@
 import logo from './assets/Yomitomo.png'
-import './Popup.css'
 import { useState } from 'react';
 
 function Popup() {
+  const styles = {
+    container: {
+      width: '400px',
+      height: '600px',
+      margin: '0',
+      padding: '10px',
+      boxSizing: 'border-box' as const,
+    },
+    title: {
+      fontFamily: '"Zen Dots", sans-serif',
+      fontSize: '36px',
+    }
+  };
 
   const [language, setLanguage] = useState<String>("EN");
 
@@ -35,7 +47,7 @@ function Popup() {
               height={150} />
           </a>
 
-          <h1 className='col-span-9 text-3xl font-bold text-slate-500 flex items-center justify-center logo-title'>
+          <h1 className='col-span-9 text-3xl font-bold text-slate-500 flex items-center justify-center logo-title' style={styles.title}>
             Yomitomo
           </h1>
         </div>

@@ -38,7 +38,7 @@ const Overlay: React.FC = () => {
             right: "5%",
             width: "300px",
             height: "400px",
-            backgroundColor: "black",
+            backgroundColor: "blue",
             border: "1px solid #ccc",
             borderRadius: "10px",
             boxShadow: "0px 4px 10px rgba(0,0,0,0.3)",
@@ -47,7 +47,7 @@ const Overlay: React.FC = () => {
           }}
           className="flex flex-col justify-center items-center text-white text-center"
         >
-          <h2>Yomitomo</h2>
+          <h2 className="text-black">Yomitomo</h2>
           <p>This is your in-page popup!</p>
           <button onClick={closeOverlay}>Close</button>
         </motion.div>
