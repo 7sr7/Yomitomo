@@ -1,23 +1,32 @@
 import { motion, AnimatePresence } from "framer-motion";
-// import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Overlay: React.FC = () => {
-  // const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
 
-  const closeOverlay = () => {
-    // setIsVisible(false); // Start exit animation
-    setTimeout(() => {
-      const popupRoot = document.getElementById("yomitomo-overlay");
-      if (popupRoot) {
-        popupRoot.style.display = "none";
+  // Listen for messages to toggle overlay state
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data === "toggleOverlay2") {
+        setIsVisible((prev) => !prev); // ✅ Toggle visibility
+        console.log("here.");
       }
-    }, 300); // Matches transition duration
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
+
+  // Close function
+  const closeOverlay = () => {
+    setIsVisible(false);
   };
 
   return (
-    
     <AnimatePresence>
-      {(
+      {isVisible && (
         <motion.div
           initial={{ x: "100%", opacity: 0 }}  // Start off-screen
           animate={{ x: "0%", opacity: 1 }}   // Slide in from right
