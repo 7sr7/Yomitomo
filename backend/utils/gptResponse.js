@@ -1,4 +1,5 @@
 import openai from '../openai.js';
+import { META_PROMPT } from './constants.js';
 
 // define a function that waits for the OpenAI's GPT response
 const waitingForAIResponse = async (message, previousMessages = []) => {
@@ -14,8 +15,7 @@ const waitingForAIResponse = async (message, previousMessages = []) => {
             })),
             {
                 role: 'system',
-                content:
-                    'Make sure that the following message is related around learning the same language as the past messages, if there are any. If not, kindly prompt them to ask a different question about the current language or start a new chat about the new language.',
+                content: META_PROMPT
             },
             { role: 'user', content: message },
         ];

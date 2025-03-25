@@ -1,6 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
+// Importing routes
+import ChatRoutes from './routes/ChatRoutes.js';
+
 // Configuration and initialization
 dotenv.config();
 const app = express();
