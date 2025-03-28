@@ -3,6 +3,11 @@ import { waitingForAIResponse } from "../utils/gptResponse.js";
 
 const chatWithGPT = asyncHandler(async (req, res) => {
     try {
+
+        if (!req.body) {
+            return res.status(400).json({ message: "Request body is required" });
+        }
+
         const { message, previousMessages } = req.body;
 
         // Check if the message is empty
@@ -18,19 +23,12 @@ const chatWithGPT = asyncHandler(async (req, res) => {
         // Call the function to get the AI response
         const chatResponse = await waitingForAIResponse(message, previousMessages);
 
-        // Testing OUTPUT FROM GPT ????????????????????????
-        console.log("AI Response:", chatResponse);
- 
-
-
-        console.log(req.body);
-
 
         // Send the AI response back to the client
-        // res.status(200).json(aiResponse);
+        res.status(200).json(chatResponse);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Internal Server Error." });
     }
 });
 

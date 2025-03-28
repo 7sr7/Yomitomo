@@ -4,8 +4,8 @@ import { useState } from 'react';
 function Popup() {
   const styles = {
     container: {
-      width: '400px',
-      height: '600px',
+      width: '300px',
+      height: '500px',
       margin: '0',
       padding: '10px',
       boxSizing: 'border-box' as const,
@@ -13,7 +13,7 @@ function Popup() {
     title: {
       fontFamily: '"Zen Dots", sans-serif',
       fontSize: '36px',
-    }
+    },
   };
 
   const [language, setLanguage] = useState<String>("EN");
@@ -71,8 +71,7 @@ function Popup() {
           
           <button
             onClick={openOverlay} 
-            // className='rounded-2xl bg-gradient-to-r from-blue-300 to-green-700 shadow-md border border-slate-500 my-5 hover:scale-105 duration-300 px-8 py-2 w-48'>
-            className="rounded-2xl bg-gradient-to-r from-[#7068f0]  to-[#03b1d5] shadow-md border border-slate-500 my-5 hover:scale-105 transition-transform duration-300 px-8 py-2 w-48">
+            className="rounded-2xl bg-gradient-to-r from-[#7068f0] to-[#03b1d5] shadow-md border border-slate-500 my-5 transform hover:scale-105 transition-transform duration-300 px-8 py-2 w-48 cursor-pointer">
             {
               language === "EN"
               ? "Open Yomitomo" 
@@ -85,7 +84,7 @@ function Popup() {
           onClick = {toggleLanguage}
 
           
-          className = "rounded-2xl bg-gradient-to-r from-[#7068f0]  to-[#03b1d5] shadow-md border border-slate-500 my-5 hover:scale-105 transition-transform duration-300 px-8 py-2 min-w-48">
+          className = "rounded-2xl bg-gradient-to-r from-[#7068f0] to-[#03b1d5] shadow-md border border-slate-500 my-5 transform hover:scale-105 transition-transform duration-300 px-8 py-2 min-w-48 cursor-pointer">
           
           { 
             language === "EN" ? (
