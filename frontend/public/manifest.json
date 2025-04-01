@@ -27,6 +27,12 @@
             "suggested_key": {
                 "default": "Ctrl+Shift+Y"
             }
+        },
+        "toggle_overlay": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+K"
+            },
+            "description": "Toggle the overlay"
         }
     },
     "host_permissions": [

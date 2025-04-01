@@ -22,6 +22,6 @@ export default defineConfig({
     }
   },
   server: {
-    open: "/src/popup/index.html"
+    open: "/src/popup/index.html" // Change this to overlay.html
   }
 })

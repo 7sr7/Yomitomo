@@ -28,3 +28,11 @@ if (!window.hasOwnProperty("yomitomoListenerAdded")) {
 
   console.log("Content script loaded and listener added.");
 }
+
+// Listen for text selection (highlighting)
+document.addEventListener("mouseup", function () {
+  let selectedText = window.getSelection().toString().trim();
+  if (selectedText.length > 0) {
+      chrome.runtime.sendMessage({ action: "storeText", text: selectedText });
+  }
+});

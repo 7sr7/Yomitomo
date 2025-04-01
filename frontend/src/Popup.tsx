@@ -71,7 +71,7 @@ function Popup() {
           
           <button
             onClick={openOverlay} 
-            className="rounded-2xl bg-gradient-to-r from-[#7068f0] to-[#03b1d5] shadow-md border border-slate-500 my-5 transform hover:scale-105 transition-transform duration-300 px-8 py-2 w-48 cursor-pointer">
+            className="rounded-2xl bg-gradient-to-r from-[#7068f0] to-[#03b1d5] shadow-md border border-slate-500 my-5 hover:scale-110 transition-transform duration-300 px-8 py-2 w-48 cursor-pointer transform">
             {
               language === "EN"
               ? "Open Yomitomo" 
@@ -84,7 +84,7 @@ function Popup() {
           onClick = {toggleLanguage}
 
           
-          className = "rounded-2xl bg-gradient-to-r from-[#7068f0] to-[#03b1d5] shadow-md border border-slate-500 my-5 transform hover:scale-105 transition-transform duration-300 px-8 py-2 min-w-48 cursor-pointer">
+          className = "rounded-2xl bg-gradient-to-r from-[#7068f0] to-[#03b1d5] shadow-md border border-slate-500 my-5 hover:scale-110 transition-transform duration-300 px-8 py-2 min-w-48 cursor-pointer transform">
           
           { 
             language === "EN" ? (
