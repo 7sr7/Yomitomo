@@ -49,12 +49,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       });
     });
   }
-});
 
-// Store the highlighted text in local storage
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "storeText") {
-      chrome.storage.local.set({ highlightedText: message.text });
-      console.log("Stored Highlighted Text:", message.text);
-  }
 });

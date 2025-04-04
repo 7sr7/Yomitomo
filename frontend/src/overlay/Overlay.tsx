@@ -11,14 +11,14 @@ const Overlay: React.FC = () => {
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data === "toggleOverlay2") {
-        setIsVisible((prev) => !prev); // ✅ Toggle visibility
-        console.log("here.");
+        setIsVisible((prev) => !prev); // Toggle visibility
+        console.log("Toggling overlay visibility via message");
       }
 
       // Handle receiving highlighted text
       if (event.data && typeof event.data === "object" && event.data.action === "highlightedText") {
-        setHighlightedText(event.data.text);
-        console.log("Received highlighted text:", event.data.text);
+        setHighlightedText(event.data.highlightedText);
+        console.log("Received highlighted text:", event.data.highlightedText);
       }
     };
 
@@ -37,7 +37,9 @@ const Overlay: React.FC = () => {
 
   // Close function
   const closeOverlay = () => {
-    setIsVisible(false);
+    // Send a message to content script to handle the toggle
+    window.postMessage("closeOverlayFromInside", "*");
+    console.log("Sending close message to content script");
   };
 
   return (

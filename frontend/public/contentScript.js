@@ -1,27 +1,46 @@
 if (!window.hasOwnProperty("yomitomoListenerAdded")) {
   window.yomitomoListenerAdded = true;
+  // Track if overlay is initialized and its state
+  window.yomitomoOverlayInitialized = false;
+  window.yomitomoOverlayVisible = false;
 
-  chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  // Listen for messages from the overlay component via window.postMessage
+  window.addEventListener("message", function(event) {
+    // Only accept messages from the same window
+    if (event.source !== window) return;
+    
+    if (event.data === "closeOverlayFromInside" && window.yomitomoOverlayInitialized) {
+      // Update the state tracking
+      window.yomitomoOverlayVisible = false;
+      // Send the toggle message back to the overlay to ensure animation
+      window.postMessage("toggleOverlay2", "*");
+      console.log("Overlay close request processed by content script");
+    }
+    
+  });
+
+  // Listen for messages from the background script
+  chrome.runtime.onMessage.addListener((msg) => {
     console.log("Received message in content script:", msg);
 
+    // Check if the message is to toggle the overlay
     if (msg.action === "toggleOverlay2") {
-      let container = document.getElementById("yomitomo-overlay");
-
-      if (container) {
-        container.style.display = container.style.display === "none" ? "block" : "none";
-        console.log("Toggled overlay:", container.style.display);
+      if (window.yomitomoOverlayInitialized) {
+        // Toggle state and send message to the overlay
+        window.yomitomoOverlayVisible = !window.yomitomoOverlayVisible;
+        window.postMessage("toggleOverlay2", "*");
+        console.log("Toggled overlay state to:", window.yomitomoOverlayVisible);
       } else {
-        // console.log("Creating new overlay...");
-        // container = document.createElement("div");
-        // container.id = "yomitomo-overlay";
-        // document.body.appendChild(container);
-
-        setTimeout(() => {
-          const script = document.createElement("script");
-          script.src = chrome.runtime.getURL("overlay.bundle.js");
-          script.type = "module";
-          document.body.appendChild(script);
-        }, 100); // Small delay to ensure element exists
+        // Initialize the overlay for the first time
+        window.yomitomoOverlayInitialized = true;
+        window.yomitomoOverlayVisible = true;
+        
+        // Create the script element to load the overlay
+        const script = document.createElement("script");
+        script.src = chrome.runtime.getURL("overlay.bundle.js");
+        script.type = "module";
+        document.body.appendChild(script);
+        console.log("Initialized overlay");
       }
     }
   });
@@ -32,7 +51,12 @@ if (!window.hasOwnProperty("yomitomoListenerAdded")) {
 // Listen for text selection (highlighting)
 document.addEventListener("mouseup", function () {
   let selectedText = window.getSelection().toString().trim();
+
+  console.log( "Selected text:", selectedText); // Log the selected text for debugging
+
   if (selectedText.length > 0) {
-      chrome.runtime.sendMessage({ action: "storeText", text: selectedText });
+    window.postMessage({ action: "highlightedText", highlightedText: selectedText }, "*");
+    console.log("Stored Highlighted Text via postMessage:", selectedText);
   }
+  
 });
