@@ -8,6 +8,35 @@ if (!window.hasOwnProperty("yomitomoListenerAdded")) {
   window.addEventListener("message", function(event) {
     // Only accept messages from the same window
     if (event.source !== window) return;
+
+    const data = event.data;
+
+    // Handle API requests from the overlay
+    if (typeof data === 'object' && data.source === 'yomitomo-overlay' && data.action === 'apiRequest') {
+      // Forward the request to the background script
+      chrome.runtime.sendMessage(
+        { action: "apiRequest", data: data.data },
+        (response) => {
+          if (chrome.runtime.lastError) {
+            // Send error response back to overlay
+            window.postMessage({
+              source: 'yomitomo-content',
+              action: 'apiResponse',
+              success: false,
+              error: chrome.runtime.lastError.message
+            }, "*");
+          } else {
+            // Send success response back to overlay
+            window.postMessage({
+              source: 'yomitomo-content',
+              action: 'apiResponse',
+              success: true,
+              data: response.data
+            }, "*");
+          }
+        }
+      );
+    }
     
     if (event.data === "closeOverlayFromInside" && window.yomitomoOverlayInitialized) {
       // Update the state tracking

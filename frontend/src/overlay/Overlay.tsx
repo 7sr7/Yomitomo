@@ -1,11 +1,13 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
+import { FaLock, FaLockOpen } from "react-icons/fa"; // Import lock icons
 import ChatSection from "./ChatSection.tsx";
 
 const Overlay: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [highlightedText, setHighlightedText] = useState("");
+  const [isTextLocked, setIsTextLocked] = useState(false); // New state to track if text is locked
 
   // Listen for messages to toggle overlay state
   useEffect(() => {
@@ -15,8 +17,8 @@ const Overlay: React.FC = () => {
         console.log("Toggling overlay visibility via message");
       }
 
-      // Handle receiving highlighted text
-      if (event.data && typeof event.data === "object" && event.data.action === "highlightedText") {
+      // Handle receiving highlighted text - only update if not locked
+      if (event.data && typeof event.data === "object" && event.data.action === "highlightedText" && !isTextLocked) {
         setHighlightedText(event.data.highlightedText);
         console.log("Received highlighted text:", event.data.highlightedText);
       }
@@ -26,20 +28,26 @@ const Overlay: React.FC = () => {
 
     // Try to get currently selected text when overlay opens
     const selection = window.getSelection();
-    if (selection && selection.toString()) {
+    if (selection && selection.toString() && !isTextLocked) {
       setHighlightedText(selection.toString());
     }
 
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, []);
+  }, [isTextLocked]); // Add isTextLocked as a dependency to re-establish the listener when it changes
 
   // Close function
   const closeOverlay = () => {
     // Send a message to content script to handle the toggle
     window.postMessage("closeOverlayFromInside", "*");
     console.log("Sending close message to content script");
+  };
+
+  // Toggle text lock
+  const toggleTextLock = () => {
+    setIsTextLocked(prev => !prev);
+    console.log("Text lock toggled:", !isTextLocked);
   };
 
   return (
@@ -99,6 +107,41 @@ const Overlay: React.FC = () => {
             >
               Yomitomo
             </h2>
+          </div>
+          
+          {/* Lock Text Checkbox */}
+          <div 
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              zIndex: 10
+            }}
+          >
+            <motion.button
+              onClick={toggleTextLock}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                background: isTextLocked ? "#e9f5ff" : "transparent",
+                border: `1px solid ${isTextLocked ? "#3b82f6" : "#cbd5e1"}`,
+                borderRadius: "20px",
+                padding: "4px 10px",
+                fontSize: "14px",
+                color: isTextLocked ? "#3b82f6" : "#64748b",
+                cursor: "pointer",
+                transition: "all 0.2s ease"
+              }}
+            >
+              {isTextLocked ? <FaLock size={12} /> : <FaLockOpen size={12} />}
+              <span>{isTextLocked ? "Text Locked" : "Lock Text"}</span>
+            </motion.button>
           </div>
           
           <motion.button

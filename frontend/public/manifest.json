@@ -37,7 +37,8 @@
     },
     "host_permissions": [
         "https://*/*",
-        "http://*/*"
+        "http://*/*",
+        "http://localhost:5000/*"
     ],
     "web_accessible_resources": [
         {

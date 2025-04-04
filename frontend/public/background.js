@@ -50,4 +50,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
   }
 
+  // Handle API requests
+  if (message.action === "apiRequest") {
+    fetch("http://localhost:5000/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message.data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      sendResponse({ success: true, data });
+    })
+    .catch(error => {
+      console.error("API request error:", error);
+      sendResponse({ success: false, error: error.message });
+    });
+    
+    return true; // Indicates we will send a response asynchronously
+  }
+
 });

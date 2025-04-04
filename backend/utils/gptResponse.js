@@ -2,7 +2,7 @@ import openai from '../openai.js';
 import { META_PROMPT } from './constants.js';
 
 // define a function that waits for the OpenAI's GPT response
-const waitingForAIResponse = async (message, previousMessages = []) => {
+const waitingForAIResponse = async (message, previousMessages = [], highlightedText = "") => {
     try {
         // Only include last 5 messages for context to reduce tokens
         const recentMessages = previousMessages.slice(-5);
@@ -17,7 +17,7 @@ const waitingForAIResponse = async (message, previousMessages = []) => {
                 role: 'system',
                 content: META_PROMPT
             },
-            { role: 'user', content: message },
+            { role: 'user', content: `Here is the highlighted text: ${highlightedText}. Here is the input: ${message}.` },
         ];
 
         const response = await openai.chat.completions.create({
