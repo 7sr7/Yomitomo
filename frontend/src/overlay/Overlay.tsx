@@ -17,14 +17,11 @@ const cssReset = `
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 16px;
-    line-height: 1.5;
     zoom: 1;
     -webkit-text-size-adjust: 100%;
   }
   
   body, html {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 `;

@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { IoSend } from 'react-icons/io5';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // Add AnimatePresence
+import { MdTranslate } from 'react-icons/md'; // Import translate icon
+import TranslateTooltip from '../ui/TranslateTooltip.tsx'; // Import TranslateTooltip component
 
 interface Message {
   text: string;
@@ -19,6 +21,7 @@ const ChatSection: React.FC<ChatSectionProps> = ({ highlightedText, messages, se
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [showTranslateTooltip, setShowTranslateTooltip] = useState(false); // Track tooltip visibility
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -121,6 +124,88 @@ const ChatSection: React.FC<ChatSectionProps> = ({ highlightedText, messages, se
     }
   };
 
+  const handleQuickTranslate = async () => {
+    if (!highlightedText.trim() || isLoading) return;
+    
+    // Add user message showing translate request
+    const translatePrompt: Message = {
+      text: `Translate this text: "${highlightedText.substring(0, 100)}${highlightedText.length > 100 ? '...' : ''}"`,
+      sender: 'user',
+      timestamp: new Date()
+    };
+    
+    setMessages([...messages, translatePrompt]);
+    setIsLoading(true);
+    
+    try {
+      // Send message for translation using the same communication channel
+      window.postMessage({
+        source: "yomitomo-overlay",
+        action: "apiRequest",
+        data: {
+          message: "Please translate the highlighted text to English",
+          previousMessages: messages.map((msg) => ({
+            sender: msg.sender,
+            message: msg.text,
+          })),
+          highlightedText,
+          isTranslationRequest: true, // Flag to indicate this is a translation request
+        }
+      }, "*");
+      
+      // Create a promise that will be resolved when we get a response
+      const responsePromise = new Promise((resolve, reject) => {
+        const handleResponse = (event: any) => {
+          // Only accept messages from the same window
+          if (event.source !== window) return;
+          
+          const data = event.data;
+          if (typeof data === 'object' && data.source === 'yomitomo-content' && data.action === 'apiResponse') {
+            window.removeEventListener('message', handleResponse);
+            
+            if (data.success) {
+              resolve(data.data);
+            } else {
+              reject(new Error(data.error || "Failed to get translation"));
+            }
+          }
+        };
+        
+        window.addEventListener('message', handleResponse);
+        
+        // Set a timeout to reject the promise if we don't get a response
+        setTimeout(() => {
+          window.removeEventListener('message', handleResponse);
+          reject(new Error("Translation request timed out"));
+        }, 30000); // 30 seconds timeout
+      });
+      
+      // Wait for the response
+      const responseData = await responsePromise as { message: string };
+      
+      const botMessage: Message = {
+        text: responseData.message,
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
+      console.log("Error getting translation:", error);
+      
+      // Add an error message to the chat
+      const errorMessage: Message = {
+        text: 'Sorry, I could not translate the text. Please try again later.',
+        sender: 'bot',
+        timestamp: new Date(),
+      };
+      
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -172,6 +257,8 @@ const ChatSection: React.FC<ChatSectionProps> = ({ highlightedText, messages, se
       </div>
     </div>
   );
+
+  
 
   return (
     <div style={{
@@ -298,29 +385,70 @@ const ChatSection: React.FC<ChatSectionProps> = ({ highlightedText, messages, se
             }}
           />
         </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={handleSendMessage}
-          disabled={isLoading || inputText.trim() === ''}
+        <div
           style={{
-            width: "48px",
-            height: "48px",
-            borderRadius: "50%",
-            backgroundColor: isLoading ? "#93c5fd" : "#3b82f6",
-            color: "white",
             display: "flex",
+            flexDirection: "column",
+            justifyItems: "center",
             alignItems: "center",
-            justifyContent: "center",
-            border: "none",
-            cursor: isLoading ? "not-allowed" : "pointer",
             marginLeft: "10px",
             flexShrink: 0,
-            opacity: (isLoading || inputText.trim() === '') ? 0.7 : 1
+            gap: "10px",
           }}
         >
-          <IoSend />
-        </motion.button>
+          <div style={{ position: 'relative' }}>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleQuickTranslate}
+              disabled={isLoading || !highlightedText.trim()}
+              onMouseEnter={() => setShowTranslateTooltip(true)}
+              onMouseLeave={() => setShowTranslateTooltip(false)}
+              title="Translate highlighted text to English"
+              style={{
+                width: "48px",
+                height: "48px",
+                borderRadius: "50%",
+                backgroundColor: isLoading ? "#9ca3af" : "#10b981", // Green color for translate button
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "none",
+                cursor: (isLoading || !highlightedText.trim()) ? "not-allowed" : "pointer",
+                flexShrink: 0,
+                opacity: (isLoading || !highlightedText.trim()) ? 0.7 : 1
+              }}
+            >
+              <MdTranslate size={22} />
+            </motion.button>
+            <TranslateTooltip showTranslateTooltip={showTranslateTooltip} position="left"/>
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleSendMessage}
+            disabled={isLoading || inputText.trim() === ''}
+            style={{
+              width: "48px",
+              height: "48px",
+              borderRadius: "50%",
+              backgroundColor: isLoading ? "#93c5fd" : "#3b82f6",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              border: "none",
+              cursor: isLoading ? "not-allowed" : "pointer",
+              flexShrink: 0,
+              opacity: (isLoading || inputText.trim() === '') ? 0.7 : 1
+            }}
+          >
+            <IoSend />
+          </motion.button>
+        </div>
+        
       </div>
     </div>
   );
