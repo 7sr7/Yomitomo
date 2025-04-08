@@ -10,10 +10,11 @@ interface Message {
 
 interface ChatSectionProps {
   highlightedText: string;
+  messages: Message[];  // Added messages prop
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>; // Added setMessages prop
 }
 
-const ChatSection: React.FC<ChatSectionProps> = ({ highlightedText }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+const ChatSection: React.FC<ChatSectionProps> = ({ highlightedText, messages, setMessages }) => {
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -182,7 +183,9 @@ const ChatSection: React.FC<ChatSectionProps> = ({ highlightedText }) => {
       boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       overflow: "hidden",
       display: "flex",
-      flexDirection: "column"
+      flexDirection: "column",
+      transform: "scale(1)",  // Force scale to 1
+      fontSize: "16px",       // Set base font size
     }}>
       {/* Highlighted text section */}
       <div style={{
@@ -191,7 +194,7 @@ const ChatSection: React.FC<ChatSectionProps> = ({ highlightedText }) => {
         backgroundColor: "#f8fafc"
       }}>
         <div style={{
-          fontSize: "12px",
+          fontSize: "12px",  // Explicitly set size
           color: "#64748b",
           marginBottom: "4px"
         }}>
@@ -201,7 +204,7 @@ const ChatSection: React.FC<ChatSectionProps> = ({ highlightedText }) => {
           backgroundColor: "#ebf5ff",
           padding: "10px",
           borderRadius: "8px",
-          fontSize: "14px",
+          fontSize: "14px",  // Explicitly set size
           borderLeft: "4px solid #3b82f6",
           maxHeight: "100px",
           overflow: "hidden",

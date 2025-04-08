@@ -4,10 +4,36 @@ import { IoClose } from "react-icons/io5";
 import { FaLock, FaLockOpen } from "react-icons/fa"; // Import lock icons
 import ChatSection from "./ChatSection.tsx";
 
+// Define Message interface
+interface Message {
+  text: string;
+  sender: 'user' | 'bot'; 
+  timestamp: Date;
+}
+
+// CSS Reset style to prevent inherited zoom/scaling issues
+const cssReset = `
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.5;
+    zoom: 1;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  body, html {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+`;
+
 const Overlay: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [highlightedText, setHighlightedText] = useState("");
   const [isTextLocked, setIsTextLocked] = useState(false); // New state to track if text is locked
+  const [messages, setMessages] = useState<Message[]>([]); // Lift messages state up
 
   // Listen for messages to toggle overlay state
   useEffect(() => {
@@ -77,8 +103,17 @@ const Overlay: React.FC = () => {
             justifyContent: "flex-start",
             alignItems: "center",
             textAlign: "center",
+            transform: "scale(1)",  // Force scale to 1
+            transformOrigin: "right center",
+            fontSize: "16px",       // Set base font size
           }}
         >
+          {/* Add a style tag with CSS reset */}
+          <style>{cssReset}</style>
+          
+          {/* Add viewport meta to control scaling */}
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+          
           <div
             style={{
               position: "absolute",
@@ -172,7 +207,11 @@ const Overlay: React.FC = () => {
             <IoClose />
           </motion.button>
 
-          <ChatSection highlightedText={highlightedText} />
+          <ChatSection 
+            highlightedText={highlightedText} 
+            messages={messages} 
+            setMessages={setMessages} 
+          />
 
         </motion.div>
       )}
